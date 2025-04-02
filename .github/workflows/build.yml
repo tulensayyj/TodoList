@@ -10,26 +10,40 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         
-      - name: Setup Node.js
+      - name: Setup Node.js 20.x
         uses: actions/setup-node@v3
         with:
           node-version: 20.11.1
+          cache: 'npm'
           
       - name: Install dependencies
         run: |
           npm ci
-          npm install electron-builder --save-dev
+          npm install electron@latest --save-dev
+          npm install electron-builder@latest --save-dev
+          
+      - name: Verify package.json
+        run: |
+          if [ ! -f "package.json" ]; then
+            echo '{"name":"todo-list","version":"1.0.0","main":"main.js"}' > package.json
+          fi
+          npm pkg set description="Electron Todo App" --json
+          npm pkg set author="Your Name" --json
+          npm pkg set build.artifactName="${productName}-${version}-${os}-${arch}.${ext}" --json
           
       - name: Build application
-        run: npm run build -- --win --x64 --publish never
-        
-      - name: Verify build output
+        run: |
+          npx electron-builder --win --x64 --publish never
+          
+      - name: List build artifacts
         run: dir dist\
         
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: windows-installer
-          path: dist\*.exe
+          name: electron-app
+          path: |
+            dist/*.exe
+            dist/*.blockmap
           if-no-files-found: error
           retention-days: 3
