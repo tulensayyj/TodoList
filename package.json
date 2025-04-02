@@ -23,6 +23,12 @@
     "url": "https://github.com/yourusername/todolist.git"
   },
   "build": {
+    "publish": {
+    "provider": "github",
+    "owner": "tulensayyj",
+    "repo": "TodoList",
+    "releaseType": "draft"
+    },
     "appId": "com.yyj.todolist",
     "productName": "todolist",
     "copyright": "Copyright © 2024 yyj",
