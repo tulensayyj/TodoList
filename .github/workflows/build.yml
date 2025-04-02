@@ -1,0 +1,17 @@
+name: Build Electron
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+      - run: npm ci
+      - run: npm install electron-builder --save-dev
+      - run: npm run build
+      - uses: actions/upload-artifact@v3
+        with:
+          name: windows-installer
+          path: dist/*.exe
