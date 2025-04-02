@@ -1,13 +1,39 @@
 {
   "name": "todolist",
   "version": "1.0.0",
-  "description": "",
+  "description": "Your Electron application description",
   "main": "main.js",
+  "author": "Your Name <your.email@example.com>",
+  "license": "MIT",
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder --dir"
+    "build": "electron-builder",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder --win --x64"
   },
-  "keywords": [],
-  "author": "yyj",
-  "license": "ISC"
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.0"
+  },
+  "devDependencies": {
+    "electron": "^35.1.2",
+    "electron-builder": "^24.6.0"
+  },
+  "build": {
+    "appId": "com.yyj.todolist",
+    "productName": "todolist",
+    "copyright": "Copyright © 2024 yyj",
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "files": [
+      "**/*",
+      "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
+      "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}"
+    ]
+  }
 }
