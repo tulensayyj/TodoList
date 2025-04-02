@@ -1,48 +1,33 @@
-name: Build Electron
+name: Build Windows App
 
-on: [push]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   build:
     runs-on: windows-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
-      # 先确保存在lock file（关键修正点）
-      - name: Generate lock file if missing
-        run: |
-          if [ ! -f "package.json" ]; then
-            echo '{"name":"todo-list","version":"1.0.0","main":"main.js"}' > package.json
-          fi
-          if [ ! -f "package-lock.json" ]; then
-            npm install --package-lock-only --ignore-scripts --no-audit
-          fi
-          
-      # 现在setup-node可以正常读取lock file了      
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: 20
           cache: 'npm'
-          
+
       - name: Install dependencies
-        run: |
-          npm ci --ignore-scripts --no-audit
-          npm install electron electron-builder --save-dev --ignore-scripts --no-audit
-          
-      - name: Build application
-        run: |
-          npx electron-builder --win --x64 --publish never
-          
+        run: npm install
+
+      - name: Build Electron app
+        run: npm run dist
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: electron-build
-          path: |
-            dist/*.exe
-            dist/*.blockmap
-            build/**/*
-          if-no-files-found: warn
-          retention-days: 7
+          name: todolist-windows
+          path: dist/
