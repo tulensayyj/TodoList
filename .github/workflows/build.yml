@@ -5,13 +5,31 @@ on: [push]
 jobs:
   build:
     runs-on: windows-latest
+    
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
-      - run: npm ci
-      - run: npm install electron-builder --save-dev
-      - run: npm run build
-      - uses: actions/upload-artifact@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.11.1
+          
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm install electron-builder --save-dev
+          
+      - name: Build application
+        run: npm run build -- --win --x64 --publish never
+        
+      - name: Verify build output
+        run: dir dist\
+        
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
         with:
           name: windows-installer
-          path: dist/*.exe
+          path: dist\*.exe
+          if-no-files-found: error
+          retention-days: 3
