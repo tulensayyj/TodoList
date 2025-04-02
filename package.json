@@ -16,16 +16,13 @@
   },
   "devDependencies": {
     "electron": "^35.1.2",
-    "electron-builder": "^24.6.0"
+    "electron-builder": "^24.13.3"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/yourusername/todolist.git"
   },
   "build": {
-    "arch": [
-      "x64"
-    ],
     "appId": "com.yyj.todolist",
     "productName": "todolist",
     "copyright": "Copyright © 2024 yyj",
