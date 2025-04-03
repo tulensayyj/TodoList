@@ -50,4 +50,6 @@ jobs:
         with:
           name: electron-build-${{ matrix.os }}
           path: |
-            dist/
+            dist/*.exe
+            dist/*.dmg
+            dist/*.zip
