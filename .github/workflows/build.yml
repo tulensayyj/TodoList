@@ -1,39 +1,56 @@
-name: Build Windows App
+name: Build and Release
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   build:
-    runs-on: windows-latest
-
-    permissions:
-      contents: write
-      packages: write
-
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest] # 并行构建两个平台
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install dependencies
+      - name: Install project dependencies
         run: npm install
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '20'
           cache: 'npm'
 
+      # macOS 需要额外安装依赖
+      - name: Install macOS dependencies
+        if: matrix.os == 'macos-latest'
+        run: |
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          echo "$(/opt/homebrew/bin/brew shellenv)" >> $GITHUB_ENV
+          brew install p7zip
+          npm install -g electron-builder
+
+      # Windows 需要安装构建工具
+      - name: Install Windows dependencies
+        if: matrix.os == 'windows-latest'
+        run: |
+          npm install -g windows-build-tools
+          npm install -g electron-builder
+
       - name: Build Electron app
-        run: npm run dist
+        run: npm run build
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 用于自动发布
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: todolist-windows
-          path: dist/
+          name: electron-build-${{ matrix.os }}
+          path: |
+            dist/*.dmg       # macOS 安装程序
+            dist/*.zip       # macOS 程序
+            dist/*.exe       # Windows 程序
+            dist/*.nupkg     # Windows 安装程序
