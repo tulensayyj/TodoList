@@ -1,11 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <title>Electron + VS Code</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Electron ToDo List</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Hello from VS Code!</h1>
-    <p>Node.js <script>document.write(process.versions.node)</script></p>
+  <!-- 主容器 -->
+  <div class="todo-app">
+    <!-- 标题区 -->
+    <header>
+      <h1>📝 My ToDo List</h1>
+    </header>
+
+    <!-- 输入新增任务区域 -->
+    <div class="input-area">
+      <input 
+        type="text" 
+        id="task-input" 
+        placeholder="输入新任务..."
+        autofocus
+      >
+      <button id="add-btn">➕ 添加</button>
+    </div>
+
+    <!-- 任务列表容器 -->
+    <ul id="task-list">
+      <!-- 示例任务（静态示例，实际由JS动态生成） -->
+      <li class="task-item">
+        <span>学习Electron基础</span>
+        <button class="delete-btn">❌</button>
+      </li>
+    </ul>
+  </div>
+
+  <!-- 引入渲染进程的JS -->
+  <script src="renderer.js"></script>
 </body>
 </html>
