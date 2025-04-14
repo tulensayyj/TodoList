@@ -5,8 +5,8 @@ const fs = require('fs')
 
 app.whenReady().then(() => {
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 900,
+    height: 650,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false // 简化示例，生产环境应启用隔离
