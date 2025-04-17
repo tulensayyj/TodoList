@@ -23,59 +23,32 @@
     <div class="app-body">
       <!-- 侧边栏 -->
       <nav class="sidebar">
-        <ul class="sidebar-list">
-          <li class="sidebar-item active">
-            <input type="radio" id="option1" name="sidebar-options" checked>
-            <label for="option1">0/0</label>
-          </li>
-          <li class="sidebar-item">
-            <input type="radio" id="option2" name="sidebar-options">
-            <label for="option2">待办事项分类2</label>
-          </li>
-          <li class="sidebar-item">
-            <input type="radio" id="option3" name="sidebar-options">
-            <label for="option3">待办事项分类3</label>
-          </li>
-          <li class="sidebar-item">
-            <input type="radio" id="option4" name="sidebar-options">
-            <label for="option4">待办事项分类4</label>
-          </li>
-          <li class="sidebar-item">
-            <input type="radio" id="option5" name="sidebar-options">
-            <label for="option5">待办事项分类5</label>
-          </li>
+        <!-- 移除toggle按钮 -->
+        <div class="sidebar-input-area">
+          <input type="text" id="category-input" placeholder="输入新分类..." class="category-input">
+          <button id="add-category-btn" class="green-button">➕</button>
+        </div>
+        <ul id="sidebar-list" class="sidebar-list">
+          <!-- 动态内容 -->
         </ul>
       </nav>
-
+      
+      <!-- 添加toggle按钮到侧边栏外部 -->
+      <div class="sidebar-toggle">◀</div>
+      
       <!-- 主内容区 -->
       <main class="main-content">
         <section class="todolist-section">
           <div class="input-area">
             <input type="text" id="task-input" placeholder="输入新任务..." autofocus>
-            <button id="add-btn" class="green-button">➕ 添加</button>
+            <button id="add-task-btn" class="green-button">➕</button>
           </div>
 
           <section class="task-list-section">
             <ul id="task-list" class="task-list">
-              <li class="task-item">
-                <input type="checkbox" id="task1" class="task-checkbox">
-                <label for="task1" class="task-label">学习Electron基础</label>
-                <button class="delete-btn">❌</button>
-              </li>
+              <!-- 这里将通过JavaScript动态插入二级目录(任务) -->
             </ul>
           </section>
-
-          <div class="filter-section">
-            <h2>Tolo</h2>
-            <select class="filter-select">
-              <option value="DITED">DITED</option>
-              <option value="MELLO">MELLO</option>
-            </select>
-            <select class="filter-select">
-              <option value="DITED">DITED</option>
-              <option value="MELLO">MELLO</option>
-            </select>
-          </div>
         </section>
       </main>
     </div>
