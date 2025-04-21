@@ -9,7 +9,8 @@
     "start": "electron .",
     "build": "electron-builder",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder --win --x64"
+    "dist": "electron-builder --win --x64",
+    "android": "npx cap run android"
   },
   "optionalDependencies": {
     "electron-squirrel-startup": "^1.0.0"
@@ -34,10 +35,16 @@
     "copyright": "Copyright © 2024 yyj",
     "mac": {
       "category": "public.app-category.utilities",
-      "target": ["dmg", "zip"]
+      "target": [
+        "dmg",
+        "zip"
+      ]
     },
     "win": {
-      "target": ["nsis","portable"]
+      "target": [
+        "nsis",
+        "portable"
+      ]
     },
     "nsis": {
       "oneClick": false,
@@ -48,5 +55,10 @@
       "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
       "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}"
     ]
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.2.0",
+    "@capacitor/cli": "7.2.0",
+    "@capacitor/core": "7.2.0"
   }
 }
